@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/super/PycharmProjects/annotation/ui/setting_dialog.ui'
+# Form implementation generated from reading ui file '/home/super/PycharmProjects/ISAT/ui/setting_dialog.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.4
 #
@@ -15,7 +15,9 @@ class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
         Dialog.resize(720, 460)
-        self.horizontalLayout_2 = QtWidgets.QHBoxLayout(Dialog)
+        self.verticalLayout_7 = QtWidgets.QVBoxLayout(Dialog)
+        self.verticalLayout_7.setObjectName("verticalLayout_7")
+        self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.verticalLayout = QtWidgets.QVBoxLayout()
         self.verticalLayout.setObjectName("verticalLayout")
@@ -194,20 +196,27 @@ class Ui_Dialog(object):
         self.verticalLayout_6.addWidget(self.widget_3)
         self.stackedWidget.addWidget(self.page_1)
         self.verticalLayout_4.addWidget(self.stackedWidget)
+        self.horizontalLayout_2.addLayout(self.verticalLayout_4)
+        self.verticalLayout_7.addLayout(self.horizontalLayout_2)
         self.widget_4 = QtWidgets.QWidget(Dialog)
         self.widget_4.setObjectName("widget_4")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.widget_4)
         self.horizontalLayout.setObjectName("horizontalLayout")
+        self.pushButton_import = QtWidgets.QPushButton(self.widget_4)
+        self.pushButton_import.setObjectName("pushButton_import")
+        self.horizontalLayout.addWidget(self.pushButton_import)
+        self.pushButton_export = QtWidgets.QPushButton(self.widget_4)
+        self.pushButton_export.setObjectName("pushButton_export")
+        self.horizontalLayout.addWidget(self.pushButton_export)
         spacerItem3 = QtWidgets.QSpacerItem(238, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem3)
-        self.apply_button = QtWidgets.QPushButton(self.widget_4)
-        self.apply_button.setObjectName("apply_button")
-        self.horizontalLayout.addWidget(self.apply_button)
         self.cache_button = QtWidgets.QPushButton(self.widget_4)
         self.cache_button.setObjectName("cache_button")
         self.horizontalLayout.addWidget(self.cache_button)
-        self.verticalLayout_4.addWidget(self.widget_4)
-        self.horizontalLayout_2.addLayout(self.verticalLayout_4)
+        self.apply_button = QtWidgets.QPushButton(self.widget_4)
+        self.apply_button.setObjectName("apply_button")
+        self.horizontalLayout.addWidget(self.apply_button)
+        self.verticalLayout_7.addWidget(self.widget_4)
 
         self.retranslateUi(Dialog)
         self.stackedWidget.setCurrentIndex(0)
@@ -228,5 +237,7 @@ class Ui_Dialog(object):
         self.label_9.setText(_translate("Dialog", "Label"))
         self.label_11.setText(_translate("Dialog", "Add new category"))
         self.add_button.setText(_translate("Dialog", "Add"))
-        self.apply_button.setText(_translate("Dialog", "Apply"))
+        self.pushButton_import.setText(_translate("Dialog", "Import"))
+        self.pushButton_export.setText(_translate("Dialog", "Export"))
         self.cache_button.setText(_translate("Dialog", "Cache"))
+        self.apply_button.setText(_translate("Dialog", "Apply"))

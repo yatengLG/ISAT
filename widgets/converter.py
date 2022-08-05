@@ -50,17 +50,17 @@ class ConvertDialog(QtWidgets.QDialog, Ui_Dialog):
         if self.label_root is None or self.save_root is None:
             return
         # 语义分割，保存类别文件
-        if not self.checkBox_is_segmentation.isChecked():
+        if not self.checkBox_is_instance.isChecked():
             with open(os.path.join(self.save_root, 'classesition.txt'), 'w') as f:
                 for index, label in enumerate(self.mainwindow.cfg.get('label', [])):
                     f.write('{} {}\n'.format(label.get('name'), index))
 
-        converter = Converter(self.mainwindow.cfg, self.checkBox_is_segmentation.isChecked())
+        converter = Converter(self.mainwindow.cfg, self.checkBox_is_instance.isChecked())
         jsons = [f for f in os.listdir(self.label_root) if f.endswith('.json')]
 
         self.pushButton_label_root.setEnabled(False)
         self.pushButton_save_root.setEnabled(False)
-        self.checkBox_is_segmentation.setEnabled(False)
+        self.checkBox_is_instance.setEnabled(False)
 
         self.widget_process.setVisible(True)
         self.progressBar.setMaximum(len(jsons))
@@ -77,7 +77,7 @@ class ConvertDialog(QtWidgets.QDialog, Ui_Dialog):
 
         self.pushButton_label_root.setEnabled(True)
         self.pushButton_save_root.setEnabled(True)
-        self.checkBox_is_segmentation.setEnabled(True)
+        self.checkBox_is_instance.setEnabled(True)
 
     def init_connect(self):
         self.pushButton_label_root.clicked.connect(self._label_root)

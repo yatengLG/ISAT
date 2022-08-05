@@ -172,6 +172,17 @@ class Polygon(QtWidgets.QGraphicsPolygonItem):
         self.rxmin, self.rymin, self.rxmax, self.rymax = min(xs), min(ys), max(xs), max(ys)
         self.setPolygon(QtGui.QPolygonF(self.points))
 
+    def change_color(self, color):
+        self.color = color
+        self.color.setAlpha(self.nohover_alpha)
+        self.setPen(QtGui.QPen(self.color, self.line_width))
+        self.setBrush(self.color)
+        for vertex in self.vertexs:
+            vertex_color = self.color
+            vertex_color.setAlpha(255)
+            vertex.setPen(QtGui.QPen(vertex_color, self.line_width))
+            vertex.setBrush(vertex_color)
+
     def set_drawed(self, category, group, iscrowd, note, color:QtGui.QColor, layer=None):
         self.is_drawing = False
         self.category = category

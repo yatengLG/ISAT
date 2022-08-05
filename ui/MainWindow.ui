@@ -51,7 +51,7 @@
      <x>0</x>
      <y>0</y>
      <width>1280</width>
-     <height>17</height>
+     <height>23</height>
     </rect>
    </property>
    <property name="autoFillBackground">
@@ -176,8 +176,8 @@
   <widget class="QDockWidget" name="info_dock">
    <property name="minimumSize">
     <size>
-     <width>58</width>
-     <height>35</height>
+     <width>80</width>
+     <height>38</height>
     </size>
    </property>
    <property name="features">
@@ -194,8 +194,8 @@
   <widget class="QDockWidget" name="labels_dock">
    <property name="minimumSize">
     <size>
-     <width>58</width>
-     <height>35</height>
+     <width>80</width>
+     <height>38</height>
     </size>
    </property>
    <property name="features">
@@ -403,11 +403,11 @@
   </action>
   <action name="actionBit_map">
    <property name="checkable">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
    <property name="icon">
     <iconset resource="../icons.qrc">
-     <normaloff>:/icons/icons/image_30x30.png</normaloff>:/icons/icons/image_30x30.png</iconset>
+     <normaloff>:/icons/icons/label_map_30x30.png</normaloff>:/icons/icons/label_map_30x30.png</iconset>
    </property>
    <property name="text">
     <string>Bit map</string>

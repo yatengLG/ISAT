@@ -3,7 +3,7 @@ from enum import Enum
 
 
 DEFAULT_CONFIG_FILE = 'default.yaml'
-CONFIG_FILE = 'config.yaml'
+CONFIG_FILE = 'isat.yaml'
 
 def load_config(file):
     with open(file, 'rb')as f:
@@ -16,7 +16,13 @@ def save_config(cfg, file):
         f.write(s)
     return True
 
-class ModeEnum(Enum):
+class DRAWMode(Enum):
     VIEW = 0
     CREATE = 1
     EDIT = 2
+
+
+class MAPMode(Enum):
+    LABEL = 0
+    SEMANTIC = 1
+    INSTANCE = 2

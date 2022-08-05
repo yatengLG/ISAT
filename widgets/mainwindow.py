@@ -14,11 +14,13 @@ from widgets.shortcut_dialog import ShortcutDialog
 from widgets.about_dialog import AboutDialog
 from widgets.converter import ConvertDialog
 from widgets.canvas import AnnotationScene, AnnotationView
-from configs import ModeEnum, load_config, save_config, CONFIG_FILE, DEFAULT_CONFIG_FILE
+from configs import DRAWMode, MAPMode, load_config, save_config, CONFIG_FILE, DEFAULT_CONFIG_FILE
 from annotation import Object, Annotation
 from widgets.polygon import Polygon
 import os
 from PIL import Image
+import imgviz
+import icons_rc
 
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
@@ -39,7 +41,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.polygons:list = []
 
         self.png_palette = None # 图像拥有调色盘，说明是单通道的标注png文件
-
+        self.instance_cmap = imgviz.label_colormap()
+        self.map_mode = MAPMode.LABEL
         # 标注目标
         self.current_label:Annotation = None
 
@@ -89,6 +92,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.trans.load('ui/zh_CN')
         else:
             self.trans.load('ui/en')
+        self.actionChinese.setChecked(language=='zh')
+        self.actionEnglish.setChecked(language=='en')
         _app = QtWidgets.QApplication.instance()
         _app.installTranslator(self.trans)
         self.retranslateUi(self)
@@ -104,18 +109,15 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def translate_to_chinese(self):
         self.translate('zh')
-        self.actionChinese.setChecked(True)
-        self.actionEnglish.setChecked(False)
         self.cfg['language'] = 'zh'
 
     def translate_to_english(self):
         self.translate('en')
-        self.actionChinese.setChecked(False)
-        self.actionEnglish.setChecked(True)
         self.cfg['language'] = 'en'
 
-    def reload_cfg(self):
-        config_file = CONFIG_FILE if os.path.exists(CONFIG_FILE) else DEFAULT_CONFIG_FILE
+    def reload_cfg(self, config_file:str=None):
+        if config_file is None:
+            config_file = CONFIG_FILE if os.path.exists(CONFIG_FILE) else DEFAULT_CONFIG_FILE
         self.cfg = load_config(config_file)
         label_dict_list = self.cfg.get('label', [])
         d = {}
@@ -264,7 +266,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.actionNext.setEnabled(True)
 
     def prior_image(self):
-        if self.scene.mode != ModeEnum.VIEW:
+        if self.scene.mode != DRAWMode.VIEW:
             return
         if self.current_index is None:
             return
@@ -280,7 +282,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.show_image(self.current_index)
 
     def next_image(self):
-        if self.scene.mode != ModeEnum.VIEW:
+        if self.scene.mode != DRAWMode.VIEW:
             return
         if self.current_index is None:
             return
@@ -312,28 +314,64 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         if 0 <= index < len(self.current_label.objects):
             del self.current_label.objects[index]
 
-    def change_to_bit_map(self, checked):
-        if self.scene.mode == ModeEnum.CREATE:
-            self.scenecache_draw()
-        if checked:
+    def change_bit_map(self):
+        if self.scene.mode == DRAWMode.CREATE:
+            self.scene.cache_draw()
+        if self.map_mode == MAPMode.LABEL:
+            # to semantic
             for polygon in self.polygons:
                 polygon.setEnabled(False)
                 for vertex in polygon.vertexs:
                     vertex.setVisible(False)
+                polygon.change_color(QtGui.QColor(self.category_color_dict.get(polygon.category, '#000000')))
                 polygon.color.setAlpha(255)
                 polygon.setBrush(polygon.color)
             self.labels_dock_widget.listWidget.setEnabled(False)
             self.actionCreate.setEnabled(False)
-        else:
+            self.map_mode = MAPMode.SEMANTIC
+            semantic_icon = QtGui.QIcon()
+            semantic_icon.addPixmap(QtGui.QPixmap(":/icons/icons/semantic_map_30x30.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+            self.actionBit_map.setIcon(semantic_icon)
+
+        elif self.map_mode == MAPMode.SEMANTIC:
+            # to instance
+            for polygon in self.polygons:
+                polygon.setEnabled(False)
+                for vertex in polygon.vertexs:
+                    vertex.setVisible(False)
+                if polygon.group != '':
+                    rgb = self.instance_cmap[int(polygon.group)]
+                else:
+                    rgb = self.instance_cmap[0]
+                polygon.change_color(QtGui.QColor(rgb[0], rgb[1], rgb[2], 255))
+                polygon.color.setAlpha(255)
+                polygon.setBrush(polygon.color)
+            self.labels_dock_widget.listWidget.setEnabled(False)
+            self.actionCreate.setEnabled(False)
+            self.map_mode = MAPMode.INSTANCE
+            instance_icon = QtGui.QIcon()
+            instance_icon.addPixmap(QtGui.QPixmap(":/icons/icons/instance_map_30x30.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+            self.actionBit_map.setIcon(instance_icon)
+
+        elif self.map_mode == MAPMode.INSTANCE:
+            # to label
             for polygon in self.polygons:
                 polygon.setEnabled(True)
                 for vertex in polygon.vertexs:
                     # vertex.setEnabled(True)
                     vertex.setVisible(polygon.isVisible())
+                polygon.change_color(QtGui.QColor(self.category_color_dict.get(polygon.category, '#000000')))
                 polygon.color.setAlpha(polygon.nohover_alpha)
                 polygon.setBrush(polygon.color)
             self.labels_dock_widget.listWidget.setEnabled(True)
             self.actionCreate.setEnabled(True)
+            self.map_mode = MAPMode.LABEL
+            label_icon = QtGui.QIcon()
+            label_icon.addPixmap(QtGui.QPixmap(":/icons/icons/label_map_30x30.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+            self.actionBit_map.setIcon(label_icon)
+
+        else:
+            pass
 
     def label_converter(self):
         self.convert_dialog.reset_gui()
@@ -345,8 +383,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def about(self):
         self.about_dialog.show()
 
+    def save_cfg(self, config_file):
+        save_config(self.cfg, config_file)
+
     def exit(self):
-        save_config(self.cfg, CONFIG_FILE)
+        self.save_cfg(CONFIG_FILE)
         self.close()
 
     def closeEvent(self, a0: QtGui.QCloseEvent):
@@ -371,7 +412,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.actionZoom_in.triggered.connect(self.view.zoom_in)
         self.actionZoom_out.triggered.connect(self.view.zoom_out)
         self.actionFit_wiondow.triggered.connect(self.view.zoomfit)
-        self.actionBit_map.triggered.connect(self.change_to_bit_map)
+        self.actionBit_map.triggered.connect(self.change_bit_map)
 
         self.actionConverter.triggered.connect(self.label_converter)
 

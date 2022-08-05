@@ -108,6 +108,18 @@ class SettingDialog(QtWidgets.QDialog, Ui_Dialog):
         if color.isValid():
             self.color_button.setStyleSheet('QWidget {background-color: %s}' % color.name())
 
+    def import_cfg(self):
+        file, _ = QtWidgets.QFileDialog.getOpenFileName(self, filter='Yaml File(*.yaml)')
+        if file:
+            self.mainwindow.reload_cfg(file)
+        self.load_cfg()
+
+    def export_cfg(self):
+        file, _ = QtWidgets.QFileDialog.getSaveFileName(self, filter='Yaml File(*.yaml)')
+        if file:
+            self.mainwindow.save_cfg(file)
+        self.load_cfg()
+
     def apply(self):
         cfg = {}
         cfg['display'] = {}
@@ -140,3 +152,5 @@ class SettingDialog(QtWidgets.QDialog, Ui_Dialog):
         self.apply_button.clicked.connect(self.apply)
         self.cache_button.clicked.connect(self.cache)
         self.color_button.clicked.connect(self.choice_color)
+        self.pushButton_import.clicked.connect(self.import_cfg)
+        self.pushButton_export.clicked.connect(self.export_cfg)

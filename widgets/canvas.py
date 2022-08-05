@@ -4,7 +4,7 @@
 from PyQt5 import QtWidgets, QtGui, QtCore
 from enum import Enum
 from widgets.polygon import Polygon
-from configs import ModeEnum
+from configs import DRAWMode
 from PIL import Image
 import numpy as np
 
@@ -16,7 +16,7 @@ class AnnotationScene(QtWidgets.QGraphicsScene):
         self.image_item:QtWidgets.QGraphicsPixmapItem = None
         self.image_data = None
         self.current_graph:Polygon = None
-        self.mode = ModeEnum.VIEW
+        self.mode = DRAWMode.VIEW
         self.top_layer = 1
 
         self.guide_line_x:QtWidgets.QGraphicsLineItem = None
@@ -35,25 +35,25 @@ class AnnotationScene(QtWidgets.QGraphicsScene):
     def change_mode_to_create(self):
         if self.image_item is None:
             return
-        self.mode = ModeEnum.CREATE
+        self.mode = DRAWMode.CREATE
         self.image_item.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.CrossCursor))
 
     def change_mode_to_view(self):
-        self.mode = ModeEnum.VIEW
+        self.mode = DRAWMode.VIEW
         self.image_item.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.ArrowCursor))
 
     def change_mode_to_edit(self):
-        self.mode = ModeEnum.EDIT
+        self.mode = DRAWMode.EDIT
         self.image_item.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.CrossCursor))
 
     def start_draw(self):
         # 只有view模式时，才能切换create模式
-        if self.mode != ModeEnum.VIEW:
+        if self.mode != DRAWMode.VIEW:
             return
         # 否则，切换到绘图模式
         self.change_mode_to_create()
         # 绘图模式
-        if self.mode == ModeEnum.CREATE:
+        if self.mode == DRAWMode.CREATE:
             self.current_graph = Polygon(self.mainwindow.cfg)
             self.addItem(self.current_graph)
 
@@ -157,7 +157,7 @@ class AnnotationScene(QtWidgets.QGraphicsScene):
 
     def mousePressEvent(self, event: 'QtWidgets.QGraphicsSceneMouseEvent'):
         if event.button() == QtCore.Qt.MouseButton.LeftButton:
-            if self.mode == ModeEnum.CREATE:
+            if self.mode == DRAWMode.CREATE:
                 sceneX, sceneY = event.scenePos().x(), event.scenePos().y()
                 if sceneX < 0:
                     sceneX = 0
@@ -176,7 +176,7 @@ class AnnotationScene(QtWidgets.QGraphicsScene):
             super(AnnotationScene, self).mousePressEvent(event)
 
         if event.button() == QtCore.Qt.MouseButton.RightButton:
-            if self.mode == ModeEnum.CREATE:
+            if self.mode == DRAWMode.CREATE:
                 self.finish_draw()
 
     def mouseMoveEvent(self, event: 'QtWidgets.QGraphicsSceneMouseEvent'):
@@ -198,7 +198,7 @@ class AnnotationScene(QtWidgets.QGraphicsScene):
         if pos.y() < 0: pos.setY(0)
         if pos.y() > self.height(): pos.setY(self.height())
 
-        if self.mode == ModeEnum.CREATE:
+        if self.mode == DRAWMode.CREATE:
             # 实时移动多边形
             self.current_graph.movePoint(len(self.current_graph.points)-1, pos)
 
