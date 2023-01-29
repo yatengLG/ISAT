@@ -1,11 +1,3 @@
-language: 'zh'
-display:
-  polygon:
-    hover_alpha: 150
-    nohover_alpha: 100
-  vertex:
-    hover_size: 3
-    nohover_size: 2
 label:
 - color: '#000000'
   name: __background__

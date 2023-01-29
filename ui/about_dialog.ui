@@ -115,7 +115,7 @@
            </property>
            <property name="text">
             <string>IDAT Copyright (C) 2022 yatengLG.
-http://www.yatenglg.cn/blog</string>
+http://www.yatenglg.cn/isat</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
