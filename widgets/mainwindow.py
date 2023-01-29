@@ -28,14 +28,14 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         super(MainWindow, self).__init__()
         self.setupUi(self)
         self.init_ui()
-
+        self.image_root: str = None
         self.label_root:str = None
 
         self.files_list: list = []
         self.current_index = None
-        self.xml_root: str = None
         self.current_file_index: int = None
 
+        self.config_file = CONFIG_FILE if os.path.exists(CONFIG_FILE) else DEFAULT_CONFIG_FILE
         self.saved = True
         self.load_finished = False
         self.polygons:list = []
@@ -115,10 +115,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.translate('en')
         self.cfg['language'] = 'en'
 
-    def reload_cfg(self, config_file:str=None):
-        if config_file is None:
-            config_file = CONFIG_FILE if os.path.exists(CONFIG_FILE) else DEFAULT_CONFIG_FILE
-        self.cfg = load_config(config_file)
+    def reload_cfg(self):
+        self.cfg = load_config(self.config_file)
         label_dict_list = self.cfg.get('label', [])
         d = {}
         for label_dict in label_dict_list:
@@ -142,23 +140,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             else:
                 self.setWindowTitle('*{}'.format(self.current_label.label_path))
 
-    def open_file(self):
-        file, _ = QtWidgets.QFileDialog.getOpenFileName(self)
-
-        if file:
-            self.files_list.clear()
-            self.files_dock_widget.listWidget.clear()
-
-            self.files_list = [file]
-            self.current_index = 0
-
-            if self.label_root is None:
-                dir, name = os.path.split(self.files_list[0])
-                self.label_root = dir
-
-            self.files_dock_widget.update_widget()
-            self.show_image(self.current_index)
-
     def open_dir(self):
         dir = QtWidgets.QFileDialog.getExistingDirectory(self)
         if dir:
@@ -169,7 +150,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             suffixs = tuple(['{}'.format(fmt.data().decode('ascii').lower()) for fmt in QtGui.QImageReader.supportedImageFormats()])
             for f in os.listdir(dir):
                 if f.lower().endswith(suffixs):
-                    f = os.path.join(dir, f)
+                    # f = os.path.join(dir, f)
                     files.append(f)
             files = sorted(files)
             self.files_list = files
@@ -178,8 +159,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
         self.current_index = 0
 
+        self.image_root = dir
+        self.actionOpen_dir.setStatusTip("Image root: {}".format(self.image_root))
         if self.label_root is None:
             self.label_root = dir
+            self.actionSave_dir.setStatusTip("Label root: {}".format(self.label_root))
 
         self.show_image(self.current_index)
 
@@ -187,6 +171,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         dir = QtWidgets.QFileDialog.getExistingDirectory(self)
         if dir:
             self.label_root = dir
+            self.actionSave_dir.setStatusTip("Label root: {}".format(self.label_root))
+
         # 刷新图片
         if self.current_index is not None:
             self.show_image(self.current_index)
@@ -215,7 +201,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         try:
             self.polygons.clear()
             self.labels_dock_widget.listWidget.clear()
-            file_path = self.files_list[index]
+            file_path = os.path.join(self.image_root, self.files_list[index])
             image_data = Image.open(file_path)
             self.png_palette = image_data.getpalette()
             if self.png_palette is not None:
@@ -223,7 +209,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.actionCreate.setEnabled(False)
                 self.actionSave.setEnabled(False)
                 self.actionBit_map.setEnabled(False)
-
             else:
                 self.actionCreate.setEnabled(True)
                 self.actionSave.setEnabled(True)
@@ -240,7 +225,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.current_label.load_annotation()
 
                 for object in self.current_label.objects:
-                    polygon = Polygon(self.cfg)
+                    polygon = Polygon()
                     self.scene.addItem(polygon)
                     polygon.load_object(object)
                     self.polygons.append(polygon)
@@ -297,6 +282,26 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         else:
             self.show_image(self.current_index)
 
+    def jump_to(self):
+        index = self.files_dock_widget.lineEdit_jump.text()
+        if index:
+            if not index.isdigit():
+                if index in self.files_list:
+                    index = self.files_list.index(index)+1
+                else:
+                    QtWidgets.QMessageBox.warning(self, 'Warning', 'Don`t exist image named: {}'.format(index))
+                    self.files_dock_widget.lineEdit_jump.clear()
+                    return
+            index = int(index)-1
+            if 0 <= index < len(self.files_list):
+                self.show_image(index)
+                self.files_dock_widget.lineEdit_jump.clear()
+            else:
+                QtWidgets.QMessageBox.warning(self, 'Warning', 'Index must be in [1, {}].'.format(len(self.files_list)))
+                self.files_dock_widget.lineEdit_jump.clear()
+                self.files_dock_widget.lineEdit_jump.clearFocus()
+                return
+
     def cache_draw(self):
         self.scene.cache_draw()
 
@@ -330,7 +335,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.actionCreate.setEnabled(False)
             self.map_mode = MAPMode.SEMANTIC
             semantic_icon = QtGui.QIcon()
-            semantic_icon.addPixmap(QtGui.QPixmap(":/icons/icons/semantic_map_30x30.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+            semantic_icon.addPixmap(QtGui.QPixmap(":/icons/icons/semantic.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
             self.actionBit_map.setIcon(semantic_icon)
 
         elif self.map_mode == MAPMode.SEMANTIC:
@@ -350,7 +355,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.actionCreate.setEnabled(False)
             self.map_mode = MAPMode.INSTANCE
             instance_icon = QtGui.QIcon()
-            instance_icon.addPixmap(QtGui.QPixmap(":/icons/icons/instance_map_30x30.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+            instance_icon.addPixmap(QtGui.QPixmap(":/icons/icons/instance.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
             self.actionBit_map.setIcon(instance_icon)
 
         elif self.map_mode == MAPMode.INSTANCE:
@@ -367,9 +372,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.actionCreate.setEnabled(True)
             self.map_mode = MAPMode.LABEL
             label_icon = QtGui.QIcon()
-            label_icon.addPixmap(QtGui.QPixmap(":/icons/icons/label_map_30x30.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+            label_icon.addPixmap(QtGui.QPixmap(":/icons/icons/照片_pic.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
             self.actionBit_map.setIcon(label_icon)
-
         else:
             pass
 
@@ -387,14 +391,13 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         save_config(self.cfg, config_file)
 
     def exit(self):
-        self.save_cfg(CONFIG_FILE)
+        self.save_cfg(self.config_file)
         self.close()
 
     def closeEvent(self, a0: QtGui.QCloseEvent):
         self.exit()
 
     def init_connect(self):
-        self.actionOpen.triggered.connect(self.open_file)
         self.actionOpen_dir.triggered.connect(self.open_dir)
         self.actionSave_dir.triggered.connect(self.save_dir)
         self.actionPiror.triggered.connect(self.prior_image)
@@ -416,7 +419,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
         self.actionConverter.triggered.connect(self.label_converter)
 
-        self.actionHelp.triggered.connect(self.help)
+        self.actionShortcut.triggered.connect(self.help)
         self.actionAbout.triggered.connect(self.about)
 
         self.actionChinese.triggered.connect(self.translate_to_chinese)

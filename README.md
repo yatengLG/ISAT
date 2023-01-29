@@ -1,7 +1,6 @@
 # ISAT图像分割标注工具
 
-![examples/demo/screenshots1.png](examples/demo/screenshots1.png)
-
+![examples/demo/标注组合图.png](examples/demo/标注组合图.png)
 
 基于多边形的图像分割标注工具，支持实例分割与语义分割。
 
@@ -13,4 +12,7 @@
 * 支持对多边形图层进行调整(图层置顶或置底)。
 * 标注文件转png单通道图(支持实例与语义)。
 * 支持滚轮缩放，左键拖动图片。
-* 通过设置setting界面，手动添加类别及其颜色，便于标注管理与显示。
+* 类别标签导入与导出，方便不同任务之间快速切换。
+
+## 导出png单通道图，用于模型训练
+![examples/demo/将标注结果导出为png单通道图.png](examples/demo/将标注结果导出为png单通道图.png)

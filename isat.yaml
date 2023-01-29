@@ -1,27 +1,19 @@
-display:
-  polygon:
-    hover_alpha: 150
-    nohover_alpha: 100
-  vertex:
-    hover_size: 3
-    nohover_size: 2
 label:
 - color: '#000000'
   name: __background__
-- color: '#ffff7f'
+- color: '#ef2929'
   name: person
-- color: '#0055ff'
+- color: '#fcaf3e'
   name: knife
-- color: '#55aaff'
+- color: '#fce94f'
   name: fork
-- color: '#aaffff'
+- color: '#8ae234'
   name: cup
-- color: '#ffaa7f'
+- color: '#729fcf'
   name: giraffe
-- color: '#aaaaff'
+- color: '#ad7fa8'
   name: plate
-- color: '#ffaa00'
+- color: '#e9b96e'
   name: table
-- color: '#ff00ff'
+- color: '#a40000'
   name: cake
-language: zh

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1280</width>
-    <height>720</height>
+    <height>760</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -16,11 +16,17 @@
     <height>600</height>
    </size>
   </property>
+  <property name="font">
+   <font>
+    <family>Times New Roman</family>
+    <pointsize>12</pointsize>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>ISAT</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../icons.qrc">
+   <iconset>
     <normaloff>:/icons/icons/isat_bg_50x25.png</normaloff>:/icons/icons/isat_bg_50x25.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
@@ -51,8 +57,14 @@
      <x>0</x>
      <y>0</y>
      <width>1280</width>
-     <height>23</height>
+     <height>24</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Times New Roman</family>
+     <pointsize>12</pointsize>
+    </font>
    </property>
    <property name="autoFillBackground">
     <bool>false</bool>
@@ -64,10 +76,15 @@
     <bool>true</bool>
    </property>
    <widget class="QMenu" name="menuFile">
+    <property name="font">
+     <font>
+      <family>Times New Roman</family>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="actionOpen"/>
     <addaction name="actionOpen_dir"/>
     <addaction name="actionSave_dir"/>
     <addaction name="separator"/>
@@ -78,6 +95,12 @@
     <addaction name="actionExit"/>
    </widget>
    <widget class="QMenu" name="menuView">
+    <property name="font">
+     <font>
+      <family>Times New Roman</family>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
     <property name="title">
      <string>View</string>
     </property>
@@ -90,6 +113,12 @@
     <addaction name="separator"/>
    </widget>
    <widget class="QMenu" name="menuAbout">
+    <property name="font">
+     <font>
+      <family>Times New Roman</family>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
     <property name="title">
      <string>Help</string>
     </property>
@@ -97,16 +126,26 @@
      <property name="title">
       <string>Laguage</string>
      </property>
+     <property name="icon">
+      <iconset resource="../icons.qrc">
+       <normaloff>:/icons/icons/翻译_translate.svg</normaloff>:/icons/icons/翻译_translate.svg</iconset>
+     </property>
      <addaction name="actionChinese"/>
      <addaction name="actionEnglish"/>
     </widget>
     <addaction name="menuLaguage"/>
-    <addaction name="actionHelp"/>
+    <addaction name="actionShortcut"/>
     <addaction name="actionAbout"/>
    </widget>
    <widget class="QMenu" name="menuTools">
     <property name="enabled">
      <bool>true</bool>
+    </property>
+    <property name="font">
+     <font>
+      <family>Times New Roman</family>
+      <pointsize>12</pointsize>
+     </font>
     </property>
     <property name="title">
      <string>Tools</string>
@@ -114,6 +153,12 @@
     <addaction name="actionConverter"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
+    <property name="font">
+     <font>
+      <family>Times New Roman</family>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
     <property name="title">
      <string>Edit</string>
     </property>
@@ -137,6 +182,12 @@
    </property>
   </widget>
   <widget class="QToolBar" name="toolBar">
+   <property name="font">
+    <font>
+     <family>Times New Roman</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
    <property name="windowTitle">
     <string>toolBar</string>
    </property>
@@ -158,8 +209,11 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="actionOpen_dir"/>
+   <addaction name="actionSave_dir"/>
    <addaction name="actionPiror"/>
    <addaction name="actionNext"/>
+   <addaction name="actionBit_map"/>
    <addaction name="separator"/>
    <addaction name="actionCreate"/>
    <addaction name="actionEdit"/>
@@ -168,10 +222,9 @@
    <addaction name="actionTo_top"/>
    <addaction name="actionTo_bottom"/>
    <addaction name="separator"/>
-   <addaction name="actionBit_map"/>
+   <addaction name="actionFit_wiondow"/>
    <addaction name="actionZoom_in"/>
    <addaction name="actionZoom_out"/>
-   <addaction name="actionFit_wiondow"/>
   </widget>
   <widget class="QDockWidget" name="info_dock">
    <property name="minimumSize">
@@ -218,52 +271,55 @@
    </attribute>
    <widget class="QWidget" name="dockWidgetContents"/>
   </widget>
-  <action name="actionOpen">
-   <property name="icon">
-    <iconset resource="../icons.qrc">
-     <normaloff>:/icons/icons/pic_30x30.png</normaloff>:/icons/icons/pic_30x30.png</iconset>
-   </property>
-   <property name="text">
-    <string>Open image</string>
-   </property>
-  </action>
   <action name="actionOpen_dir">
    <property name="icon">
     <iconset resource="../icons.qrc">
-     <normaloff>:/icons/icons/pics_30x30.png</normaloff>:/icons/icons/pics_30x30.png</iconset>
+     <normaloff>:/icons/icons/照片_pic.svg</normaloff>:/icons/icons/照片_pic.svg</iconset>
    </property>
    <property name="text">
-    <string>Open images dir</string>
+    <string>Images dir</string>
+   </property>
+   <property name="statusTip">
+    <string>Open images dir.</string>
    </property>
   </action>
   <action name="actionZoom_in">
    <property name="icon">
     <iconset resource="../icons.qrc">
-     <normaloff>:/icons/icons/zoom in_30x30.png</normaloff>:/icons/icons/zoom in_30x30.png</iconset>
+     <normaloff>:/icons/icons/放大_zoom-in.svg</normaloff>:/icons/icons/放大_zoom-in.svg</iconset>
    </property>
    <property name="text">
     <string>Zoom in</string>
+   </property>
+   <property name="statusTip">
+    <string>Zoom in.</string>
    </property>
   </action>
   <action name="actionZoom_out">
    <property name="icon">
     <iconset resource="../icons.qrc">
-     <normaloff>:/icons/icons/zoom out_30x30.png</normaloff>:/icons/icons/zoom out_30x30.png</iconset>
+     <normaloff>:/icons/icons/缩小_zoom-out.svg</normaloff>:/icons/icons/缩小_zoom-out.svg</iconset>
    </property>
    <property name="text">
     <string>Zoom out</string>
+   </property>
+   <property name="statusTip">
+    <string>Zoom out.</string>
    </property>
   </action>
   <action name="actionFit_wiondow">
    <property name="icon">
     <iconset resource="../icons.qrc">
-     <normaloff>:/icons/icons/fit window_30x30.png</normaloff>:/icons/icons/fit window_30x30.png</iconset>
+     <normaloff>:/icons/icons/等比_equal-ratio.svg</normaloff>:/icons/icons/等比_equal-ratio.svg</iconset>
    </property>
    <property name="text">
     <string>Fit window</string>
    </property>
    <property name="toolTip">
     <string>Fit window</string>
+   </property>
+   <property name="statusTip">
+    <string>Fit window.</string>
    </property>
    <property name="shortcut">
     <string>F</string>
@@ -272,7 +328,7 @@
   <action name="actionSetting">
    <property name="icon">
     <iconset resource="../icons.qrc">
-     <normaloff>:/icons/icons/setting_30x30.png</normaloff>:/icons/icons/setting_30x30.png</iconset>
+     <normaloff>:/icons/icons/设置_setting-two.svg</normaloff>:/icons/icons/设置_setting-two.svg</iconset>
    </property>
    <property name="text">
     <string>Setting</string>
@@ -281,7 +337,7 @@
   <action name="actionExit">
    <property name="icon">
     <iconset resource="../icons.qrc">
-     <normaloff>:/icons/icons/exit_30x30.png</normaloff>:/icons/icons/exit_30x30.png</iconset>
+     <normaloff>:/icons/icons/开关_power.svg</normaloff>:/icons/icons/开关_power.svg</iconset>
    </property>
    <property name="text">
     <string>Exit</string>
@@ -293,19 +349,25 @@
   <action name="actionSave_dir">
    <property name="icon">
     <iconset resource="../icons.qrc">
-     <normaloff>:/icons/icons/file_30x30.png</normaloff>:/icons/icons/file_30x30.png</iconset>
+     <normaloff>:/icons/icons/文件夹-开_folder-open.svg</normaloff>:/icons/icons/文件夹-开_folder-open.svg</iconset>
    </property>
    <property name="text">
-    <string>Open annotations dir</string>
+    <string>Label dir</string>
+   </property>
+   <property name="statusTip">
+    <string>Open label dir.</string>
    </property>
   </action>
   <action name="actionSave">
    <property name="icon">
     <iconset resource="../icons.qrc">
-     <normaloff>:/icons/icons/save_30x30.png</normaloff>:/icons/icons/save_30x30.png</iconset>
+     <normaloff>:/icons/icons/保存_save.svg</normaloff>:/icons/icons/保存_save.svg</iconset>
    </property>
    <property name="text">
     <string>Save</string>
+   </property>
+   <property name="statusTip">
+    <string>Save annotation.</string>
    </property>
    <property name="shortcut">
     <string>S</string>
@@ -317,13 +379,16 @@
    </property>
    <property name="icon">
     <iconset resource="../icons.qrc">
-     <normaloff>:/icons/icons/left_30x30.png</normaloff>:/icons/icons/left_30x30.png</iconset>
+     <normaloff>:/icons/icons/上一步_back.svg</normaloff>:/icons/icons/上一步_back.svg</iconset>
    </property>
    <property name="text">
-    <string>Prev</string>
+    <string>Priro image</string>
    </property>
    <property name="toolTip">
     <string>Prev image</string>
+   </property>
+   <property name="statusTip">
+    <string>Prior image.</string>
    </property>
    <property name="shortcut">
     <string>A</string>
@@ -338,22 +403,25 @@
   <action name="actionNext">
    <property name="icon">
     <iconset resource="../icons.qrc">
-     <normaloff>:/icons/icons/right_30x30.png</normaloff>:/icons/icons/right_30x30.png</iconset>
+     <normaloff>:/icons/icons/下一步_next.svg</normaloff>:/icons/icons/下一步_next.svg</iconset>
    </property>
    <property name="text">
-    <string>Next</string>
+    <string>Next image</string>
    </property>
    <property name="toolTip">
     <string>Next image</string>
+   </property>
+   <property name="statusTip">
+    <string>Next image.</string>
    </property>
    <property name="shortcut">
     <string>D</string>
    </property>
   </action>
-  <action name="actionHelp">
+  <action name="actionShortcut">
    <property name="icon">
     <iconset resource="../icons.qrc">
-     <normaloff>:/icons/icons/help_30x30.png</normaloff>:/icons/icons/help_30x30.png</iconset>
+     <normaloff>:/icons/icons/键盘_keyboard-one.svg</normaloff>:/icons/icons/键盘_keyboard-one.svg</iconset>
    </property>
    <property name="text">
     <string>Shortcut</string>
@@ -362,7 +430,7 @@
   <action name="actionAbout">
    <property name="icon">
     <iconset resource="../icons.qrc">
-     <normaloff>:/icons/icons/user_30x30.png</normaloff>:/icons/icons/user_30x30.png</iconset>
+     <normaloff>:/icons/icons/头像_avatar.svg</normaloff>:/icons/icons/头像_avatar.svg</iconset>
    </property>
    <property name="text">
     <string>About</string>
@@ -371,13 +439,16 @@
   <action name="actionCreate">
    <property name="icon">
     <iconset resource="../icons.qrc">
-     <normaloff>:/icons/icons/create_30x30.png</normaloff>:/icons/icons/create_30x30.png</iconset>
+     <normaloff>:/icons/icons/编辑撰写_writing-fluently.svg</normaloff>:/icons/icons/编辑撰写_writing-fluently.svg</iconset>
    </property>
    <property name="text">
     <string>Create</string>
    </property>
    <property name="toolTip">
     <string>Create polygon</string>
+   </property>
+   <property name="statusTip">
+    <string>Draw polygon.</string>
    </property>
    <property name="shortcut">
     <string>C</string>
@@ -389,13 +460,16 @@
    </property>
    <property name="icon">
     <iconset resource="../icons.qrc">
-     <normaloff>:/icons/icons/close_30x30.png</normaloff>:/icons/icons/close_30x30.png</iconset>
+     <normaloff>:/icons/icons/删除_delete.svg</normaloff>:/icons/icons/删除_delete.svg</iconset>
    </property>
    <property name="text">
     <string>Delete</string>
    </property>
    <property name="toolTip">
     <string>Delete polygon</string>
+   </property>
+   <property name="statusTip">
+    <string>Delete polygon.</string>
    </property>
    <property name="shortcut">
     <string>Del</string>
@@ -407,10 +481,13 @@
    </property>
    <property name="icon">
     <iconset resource="../icons.qrc">
-     <normaloff>:/icons/icons/label_map_30x30.png</normaloff>:/icons/icons/label_map_30x30.png</iconset>
+     <normaloff>:/icons/icons/照片_pic.svg</normaloff>:/icons/icons/照片_pic.svg</iconset>
    </property>
    <property name="text">
     <string>Bit map</string>
+   </property>
+   <property name="statusTip">
+    <string>Show instance or segmeent state.</string>
    </property>
    <property name="shortcut">
     <string>Space</string>
@@ -422,13 +499,16 @@
    </property>
    <property name="icon">
     <iconset resource="../icons.qrc">
-     <normaloff>:/icons/icons/edit_30x30.png</normaloff>:/icons/icons/edit_30x30.png</iconset>
+     <normaloff>:/icons/icons/编辑文件_file-editing.svg</normaloff>:/icons/icons/编辑文件_file-editing.svg</iconset>
    </property>
    <property name="text">
     <string>Edit</string>
    </property>
    <property name="toolTip">
     <string>Edit polygon</string>
+   </property>
+   <property name="statusTip">
+    <string>Edit polygon attribute.</string>
    </property>
    <property name="shortcut">
     <string>E</string>
@@ -440,13 +520,16 @@
    </property>
    <property name="icon">
     <iconset resource="../icons.qrc">
-     <normaloff>:/icons/icons/totop_30x30.png</normaloff>:/icons/icons/totop_30x30.png</iconset>
+     <normaloff>:/icons/icons/去顶部_to-top.svg</normaloff>:/icons/icons/去顶部_to-top.svg</iconset>
    </property>
    <property name="text">
     <string>To top</string>
    </property>
    <property name="toolTip">
     <string>Move polygon to top layer</string>
+   </property>
+   <property name="statusTip">
+    <string>Move polygon to top layer.</string>
    </property>
    <property name="shortcut">
     <string>T</string>
@@ -458,13 +541,16 @@
    </property>
    <property name="icon">
     <iconset resource="../icons.qrc">
-     <normaloff>:/icons/icons/tobottom_30x30.png</normaloff>:/icons/icons/tobottom_30x30.png</iconset>
+     <normaloff>:/icons/icons/去底部_to-bottom.svg</normaloff>:/icons/icons/去底部_to-bottom.svg</iconset>
    </property>
    <property name="text">
     <string>To bottom</string>
    </property>
    <property name="toolTip">
     <string>Move polygon to bottom layer</string>
+   </property>
+   <property name="statusTip">
+    <string>Move polygon to bottom layer.</string>
    </property>
    <property name="shortcut">
     <string>B</string>
@@ -473,13 +559,16 @@
   <action name="actionConverter">
    <property name="icon">
     <iconset resource="../icons.qrc">
-     <normaloff>:/icons/icons/loop_30x30.png</normaloff>:/icons/icons/loop_30x30.png</iconset>
+     <normaloff>:/icons/icons/转换文件1_file-conversion-one.svg</normaloff>:/icons/icons/转换文件1_file-conversion-one.svg</iconset>
    </property>
    <property name="text">
     <string>Label converter</string>
    </property>
-   <property name="whatsThis">
+   <property name="statusTip">
     <string>Convert annotations to png image.</string>
+   </property>
+   <property name="whatsThis">
+    <string/>
    </property>
   </action>
   <action name="actionChinese">
@@ -489,6 +578,12 @@
    <property name="text">
     <string>中文</string>
    </property>
+   <property name="font">
+    <font>
+     <family>Times New Roman</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
   </action>
   <action name="actionEnglish">
    <property name="checkable">
@@ -496,6 +591,12 @@
    </property>
    <property name="text">
     <string>English</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Times New Roman</family>
+     <pointsize>12</pointsize>
+    </font>
    </property>
   </action>
  </widget>

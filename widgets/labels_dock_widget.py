@@ -25,12 +25,12 @@ class LabelsDockWidget(QtWidgets.QWidget, Ui_Form):
     def generate_item_and_itemwidget(self, polygon):
         color = self.mainwindow.category_color_dict.get(polygon.category, '#000000')
         item = QtWidgets.QListWidgetItem()
-        item.setSizeHint(QtCore.QSize(200, 25))
+        item.setSizeHint(QtCore.QSize(200, 30))
         item_widget = QtWidgets.QWidget()
         layout = QtWidgets.QHBoxLayout()
-        layout.setContentsMargins(0, 1, 0, 1)
+        layout.setContentsMargins(9, 1, 9, 1)
         check_box = QtWidgets.QCheckBox()
-        check_box.setFixedWidth(15)
+        check_box.setFixedWidth(20)
         check_box.setChecked(polygon.isVisible())
         check_box.stateChanged.connect(functools.partial(self.set_polygon_show, polygon))
         layout.addWidget(check_box)
@@ -41,16 +41,20 @@ class LabelsDockWidget(QtWidgets.QWidget, Ui_Form):
         layout.addWidget(label_color)
 
         category = QtWidgets.QLabel(polygon.category)
-        layout.addWidget(category)
 
         group = QtWidgets.QLabel('{}'.format(polygon.group))
-        layout.addWidget(group)
-
-        iscrowd = QtWidgets.QLabel('crowd') if polygon.iscrowd == 1 else QtWidgets.QLabel(' ')
-        layout.addWidget(iscrowd)
 
         note = QtWidgets.QLabel('{}'.format(polygon.note))
+
+        label_iscrowd = QtWidgets.QLabel()
+        label_iscrowd.setFixedWidth(3)
+        if polygon.iscrowd == 1:
+            label_iscrowd.setStyleSheet("background-color: {};".format('#000000'))
+
+        layout.addWidget(category)
+        layout.addWidget(group)
         layout.addWidget(note)
+        layout.addWidget(label_iscrowd, alignment=QtCore.Qt.AlignmentFlag.AlignRight)
 
         item_widget.setLayout(layout)
         return item, item_widget

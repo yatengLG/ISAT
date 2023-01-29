@@ -12,6 +12,7 @@ class FilesDockWidget(QtWidgets.QWidget, Ui_Form):
         self.setupUi(self)
         self.mainwindow = mainwindow
         self.listWidget.clicked.connect(self.listwidget_doubleclick)
+        self.lineEdit_jump.returnPressed.connect(self.mainwindow.jump_to)
 
     def update_widget(self):
         self.listWidget.clear()
@@ -21,6 +22,8 @@ class FilesDockWidget(QtWidgets.QWidget, Ui_Form):
         for file_path in self.mainwindow.files_list:
             _, file_name = os.path.split(file_path)
             item = QtWidgets.QListWidgetItem()
+            item.setSizeHint(QtCore.QSize(200, 30))
+
             item.setText(file_name)
             self.listWidget.addItem(item)
 

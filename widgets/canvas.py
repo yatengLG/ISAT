@@ -54,7 +54,7 @@ class AnnotationScene(QtWidgets.QGraphicsScene):
         self.change_mode_to_create()
         # 绘图模式
         if self.mode == DRAWMode.CREATE:
-            self.current_graph = Polygon(self.mainwindow.cfg)
+            self.current_graph = Polygon()
             self.addItem(self.current_graph)
 
     def finish_draw(self):
@@ -191,12 +191,13 @@ class AnnotationScene(QtWidgets.QGraphicsScene):
             self.guide_line_x = None
             self.guide_line_y = None
 
-        # 限制在图片范围内
         pos = event.scenePos()
         if pos.x() < 0: pos.setX(0)
         if pos.x() > self.width(): pos.setX(self.width())
         if pos.y() < 0: pos.setY(0)
         if pos.y() > self.height(): pos.setY(self.height())
+        # 限制在图片范围内
+
 
         if self.mode == DRAWMode.CREATE:
             # 实时移动多边形

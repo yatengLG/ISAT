@@ -6,16 +6,14 @@ from annotation import Object
 import typing
 
 class Vertex(QtWidgets.QGraphicsPathItem):
-    def __init__(self, polygon, index, color, cfg=None):
+    def __init__(self, polygon, index, color):
         super(Vertex, self).__init__()
         self.polygon = polygon
         self.index = index
         self.color = color
-        self.cfg = cfg if cfg is not None else {}
 
-        vertex_cfg = self.cfg.get('display', {}).get('vertex', {})
-        self.hover_size = int(vertex_cfg.get('hover_size', 20))
-        self.nohover_size = int(vertex_cfg.get('nohover_size', 10))
+        self.hover_size = 3
+        self.nohover_size = 2
         self.line_width = 0
 
         self.nohover = QtGui.QPainterPath()
@@ -60,14 +58,11 @@ class Vertex(QtWidgets.QGraphicsPathItem):
 
 
 class Polygon(QtWidgets.QGraphicsPolygonItem):
-    def __init__(self, cfg=None):
+    def __init__(self):
         super(Polygon, self).__init__(parent=None)
-
-        self.cfg = cfg if cfg is not None else {}
-        polygon_cfg = self.cfg.get('display', {}).get('polygon', {})
         self.line_width = 0
-        self.hover_alpha = int(polygon_cfg.get('hover_alpha', 100))
-        self.nohover_alpha = int(polygon_cfg.get('nohover_alpha', 50))
+        self.hover_alpha = 150
+        self.nohover_alpha = 80
         self.points = []
         self.vertexs = []
         self.category = ''
@@ -90,7 +85,7 @@ class Polygon(QtWidgets.QGraphicsPolygonItem):
 
     def addPoint(self, point):
         self.points.append(point)
-        vertex = Vertex(self, len(self.points)-1, self.color, self.cfg)
+        vertex = Vertex(self, len(self.points)-1, self.color)
         # 添加路径点
         self.scene().addItem(vertex)
         self.vertexs.append(vertex)
@@ -130,6 +125,13 @@ class Polygon(QtWidgets.QGraphicsPolygonItem):
 
     def itemChange(self, change: 'QGraphicsItem.GraphicsItemChange', value: typing.Any):
         if change == QtWidgets.QGraphicsItem.GraphicsItemChange.ItemSelectedHasChanged and not self.is_drawing: # 选中改变
+            if self.isSelected():
+                color = QtGui.QColor('#00A0FF')
+                color.setAlpha(self.hover_alpha)
+                self.setBrush(color)
+            else:
+                self.color.setAlpha(self.nohover_alpha)
+                self.setBrush(self.color)
             self.scene().mainwindow.labels_dock_widget.set_selected(self) # 更新label面板
 
         if change == QtWidgets.QGraphicsItem.GraphicsItemChange.ItemPositionChange: # ItemPositionHasChanged

@@ -1,7 +1,7 @@
 {
     "info": {
         "description": "ISAT",
-        "folder": "C:/Users/lg/PycharmProjects/annotation/examples/images",
+        "folder": "/home/super/PycharmProjects/ISAT/examples/images",
         "name": "000000000144.jpg",
         "width": 640,
         "height": 480,
@@ -98,12 +98,12 @@
                     188
                 ],
                 [
-                    253,
-                    189
+                    255,
+                    191
                 ],
                 [
-                    259,
-                    193
+                    258,
+                    194
                 ],
                 [
                     265,
@@ -478,11 +478,11 @@
                     236
                 ],
                 [
-                    346,
-                    227
+                    345,
+                    226
                 ],
                 [
-                    334,
+                    335,
                     218
                 ],
                 [
@@ -566,7 +566,7 @@
                     153
                 ]
             ],
-            "area": 28839.5,
+            "area": 28870.0,
             "layer": 2.0,
             "bbox": [
                 194.0,
@@ -2025,9 +2025,9 @@
             "area": 51335.5,
             "layer": 6.0,
             "bbox": [
-                233.0,
+                233.27272727272737,
                 124.0,
-                596.0,
+                596.2727272727274,
                 480.0
             ],
             "iscrowd": 0,

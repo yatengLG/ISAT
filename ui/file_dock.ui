@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>250</width>
-    <height>346</height>
+    <width>264</width>
+    <height>341</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -48,17 +48,14 @@
        <number>0</number>
       </property>
       <item>
-       <spacer name="horizontalSpacer">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
+       <widget class="QLineEdit" name="lineEdit_jump">
+        <property name="toolTip">
+         <string>Jump to the image. Input name or index.</string>
         </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
+        <property name="placeholderText">
+         <string>Jump to the image.</string>
         </property>
-       </spacer>
+       </widget>
       </item>
       <item>
        <widget class="QLabel" name="label_current">
