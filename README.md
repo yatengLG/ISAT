@@ -14,5 +14,21 @@
 * 支持滚轮缩放，左键拖动图片。
 * 类别标签导入与导出，方便不同任务之间快速切换。
 
-## 导出png单通道图，用于模型训练
+## 安装
+```shell
+git clone https://github.com/yatengLG/ISAT.git
+cd ISAT
+conda create -n ISAT python==3.8
+conda activate ISAT
+pip install -r requirements.txt
+python main.py
+```
+
+## 导出标注文件
+ISAT标注文件采用json格式，存储信息包括：图片名、图片尺寸、图片额外说明、标注目标类别、标注目标实例id、标注目标多边形顶点等。
+
+软件内置了标签转换工具，可以将ISAT标签文件转换为png单通道图
+
+转换后的单通道图与原图分辨率一致，语义单通道图中每个像素值为该像素对应的类别id；实例单通道图中每个像素为该像素对应的实例id。
+
 ![examples/demo/将标注结果导出为png单通道图.png](examples/demo/将标注结果导出为png单通道图.png)
