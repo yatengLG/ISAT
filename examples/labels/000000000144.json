@@ -1,7 +1,7 @@
 {
     "info": {
         "description": "ISAT",
-        "folder": "/home/super/PycharmProjects/ISAT/examples/images",
+        "folder": "C:/Users/lg/PycharmProjects/ISAT/examples/images",
         "name": "000000000144.jpg",
         "width": 640,
         "height": 480,
@@ -2025,9 +2025,9 @@
             "area": 51335.5,
             "layer": 6.0,
             "bbox": [
-                233.27272727272737,
+                233.0,
                 124.0,
-                596.2727272727274,
+                596.0,
                 480.0
             ],
             "iscrowd": 0,
