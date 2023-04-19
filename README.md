@@ -4,6 +4,8 @@
 
 基于多边形的图像分割标注工具，支持实例分割与语义分割。
 
+如有快速标注的需求，推荐集成了Segment anything的ISAT：[ISAT_with_segment_anything](https://github.com/yatengLG/ISAT_with_segment_anything)
+
 ## 特点
 主要对语义标注过程中存在标注重复部分进行优化。
 自己标注过分割样本，或者使用coco分割数据集的朋友，肯定遇到过标注多边形之间存在覆盖的问题。
