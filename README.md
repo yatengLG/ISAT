@@ -4,7 +4,14 @@
 
 基于多边形的图像分割标注工具，支持实例分割与语义分割。
 
-如有快速标注的需求，推荐集成了Segment anything的ISAT：[ISAT_with_segment_anything](https://github.com/yatengLG/ISAT_with_segment_anything)
+---------------
+**推荐使用功能更加强大的[ISAT_with_segment_anything](https://github.com/yatengLG/ISAT_with_segment_anything)**
+
+**推荐使用功能更加强大的[ISAT_with_segment_anything](https://github.com/yatengLG/ISAT_with_segment_anything)**
+
+**推荐使用功能更加强大的[ISAT_with_segment_anything](https://github.com/yatengLG/ISAT_with_segment_anything)**
+
+---------------
 
 ## 特点
 主要对语义标注过程中存在标注重复部分进行优化。
